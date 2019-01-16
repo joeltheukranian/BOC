@@ -1,7 +1,6 @@
-package com.boc.client;
+package com.boc.client.model;
 
-import java.math.BigDecimal;
-
+//WeatherEntry: For sending weather data via JSON
 public class WeatherEntry {
 	String station_name;
 	String province;

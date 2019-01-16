@@ -11,10 +11,11 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import com.boc.client.WeatherEntry;
+import com.boc.client.model.WeatherEntry;
 
 import junit.framework.TestCase;
 
+//DataTest: JUnit tests to verify CSV reads ok. Verify if a column is wrong it will fail (-ve test)
 public class DataTest extends TestCase {
 	
 	public void testCSVFileIsReadable() {

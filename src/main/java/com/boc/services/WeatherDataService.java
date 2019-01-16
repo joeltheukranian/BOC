@@ -5,7 +5,8 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 
-import com.boc.client.WeatherEntry;
+import com.boc.client.model.WeatherEntry;
+
 import javax.annotation.PostConstruct;
 
 import java.io.IOException;
@@ -14,21 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+//WeatherDataService: Helper service to read CSV climate data
 @Service
 public class WeatherDataService {
 
     private List<WeatherEntry> weather;
-
-    // Love Java 8
-//    public List<User> findByUserNameOrEmail(String username) {
-//
-//        List<User> result = users.stream().filter(x -> x.getUsername().equalsIgnoreCase(username)).collect(Collectors.toList());
-//
-//        return result;
-//
-//    }
 
     public List<WeatherEntry> getWeather() {
 

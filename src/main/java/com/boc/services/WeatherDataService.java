@@ -6,8 +6,6 @@ import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 
 import com.boc.client.WeatherEntry;
-import com.boc.model.User;
-
 import javax.annotation.PostConstruct;
 
 import java.io.IOException;

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.boc</groupId>
-    <artifactId>BOC Test</artifactId>
+    <artifactId>boc_test</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
 

@@ -18,6 +18,7 @@ $(document).ready(function () {
 function populateWeatherTable(weatherDataFromServer) {
 	var weatherTable = document.getElementById("weatherTable");
 	var currentIndex = 1;
+	var indexInData = 1;
 	
 	weatherDataFromServer.forEach(function(eachWeatherEntry) {
 		var row = weatherTable.insertRow(currentIndex);
@@ -32,12 +33,14 @@ function populateWeatherTable(weatherDataFromServer) {
 		var cell6 = row.insertCell(3); // Lowest_Monthly_Min_Temp
 		
 		// Add details text to the new cells
-		cell1.innerHTML = eachWeatherEntry.station_name;
-		cell2.innerHTML = eachWeatherEntry.date;
-		cell3.innerHTML = eachWeatherEntry.province;
-		cell4.innerHTML = eachWeatherEntry.meanTemp;
-		cell5.innerHTML = eachWeatherEntry.highest_Monthly_Max_Temp;
-		cell6.innerHTML = eachWeatherEntry.lowestMonthly_Min_Temp;
+		cell1.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.station_name + "</label>";
+		cell2.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.date + "</label>";
+		cell3.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.province + "</label>";
+		cell4.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.meanTemp + "</label>";
+		cell5.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.highest_Monthly_Max_Temp + "</label>";
+		cell6.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.lowestMonthly_Min_Temp + "</label>";
+		
+		indexInData += 1;
 	})
 	
 }
@@ -110,14 +113,14 @@ function filter() {
 			var cell6 = row.insertCell(3); // Lowest_Monthly_Min_Temp
 			
 			// Add details text to the new cells
-			cell1.innerHTML = eachWeatherEntry.station_name;
-			cell2.innerHTML = eachWeatherEntry.province;
-			cell3.innerHTML = eachWeatherEntry.date;
+			cell1.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.station_name + "</label>";
+			cell2.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.province + "</label>";
+			cell3.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.date + "</label>";
 			//when click on cell, pass the index
 			cell4.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.meanTemp + "</label>";
 			//cell4.onclick = clickCell() 
-			cell5.innerHTML = eachWeatherEntry.highest_Monthly_Max_Temp;
-			cell6.innerHTML = eachWeatherEntry.lowestMonthly_Min_Temp;
+			cell5.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.highest_Monthly_Max_Temp + "</label>";
+			cell6.innerHTML = "<label onclick='clickrow(" + (indexInData - 1) +  ")'>" + eachWeatherEntry.lowestMonthly_Min_Temp + "</label>";
 		}
 		++indexInData;
 	})
@@ -125,7 +128,7 @@ function filter() {
 }
 
 function clickrow(index){
-	alert("Row index is: " + index);
+	//alert("Row index is: " + index);
 	localStorage.setItem("station", weatherData[index].station_name);
 	localStorage.setItem("province", weatherData[index].province);
 	localStorage.setItem("date", weatherData[index].date);

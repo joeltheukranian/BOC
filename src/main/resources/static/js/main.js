@@ -57,10 +57,6 @@ function load_weather_data() {
         timeout: 600000,
         success: function (data) {
 
-            //var json = "<h4>Ajax Response</h4><pre>"
-            //    + JSON.stringify(data, null, 4) + "</pre>";
-            //$('#feedback').html(json);
-
             console.log("SUCCESS : ", data);
             populateWeatherTable(data);
 
@@ -77,6 +73,8 @@ function load_weather_data() {
 }
 
 function filter() {
+//	var fromDate = convertToCurrentTimezone(new Date($("#from").val()));
+//	var toDate = convertToCurrentTimezone(new Date($("#to").val()));
 	var fromDate = new Date($("#from").val());
 	var toDate = new Date($("#to").val());
 	
@@ -98,13 +96,22 @@ function filter() {
 	weatherData.forEach(function(eachWeatherEntry) {
 		//parse Date from data. Convert DD/MM/YYYY => MM/DD/YYYY
 		var currentDate = new Date(eachWeatherEntry.date.split("/")[1] + "/" + eachWeatherEntry.date.split("/")[0] + "/" + eachWeatherEntry.date.split("/")[2]);
-		if(fromDate.getTime() <= currentDate.getTime() && toDate.getTime() >= currentDate.getTime()) {
+
+		//********************************
+		//convert to timezone (Starting to Think server side might be better here)
+		
+		//currentDate = convertToCurrentTimezone(currentDate);
+//		var utc = currentDate.getTime() + (currentDate.getTimezoneOffset() * 60000);
+//		var currentDateAdjusted = new Date(utc + (3600000*-4));
+		
+//		if((fromDate.getTime() <= currentDate.getTime()) && (toDate.getTime() >= currentDate.getTime())) {
+		//********************************
+
+		if(dates.inRange(currentDate, fromDate, toDate)) {
 			var row = weatherTable.insertRow(currentIndex);
 			currentIndex = currentIndex + 1;
 		
-			//row.onclick = clickrow;
-			
-			// Insert 
+			// Insert cells
 			var cell1 = row.insertCell(0); // Station
 			var cell2 = row.insertCell(1); // Province
 			var cell3 = row.insertCell(2); // Date
@@ -140,42 +147,62 @@ function clickrow(index){
 	location.href="/details"
 }
 
-function fire_ajax_submit() {
-
-    var search = {}
-    search["username"] = $("#username").val();
-    //search["email"] = $("#email").val();
-
-    $("#btn-search").prop("disabled", true);
-
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "/api/search",
-        data: JSON.stringify(search),
-        dataType: 'json',
-        cache: false,
-        timeout: 600000,
-        success: function (data) {
-
-            var json = "<h4>Ajax Response</h4><pre>"
-                + JSON.stringify(data, null, 4) + "</pre>";
-            $('#feedback').html(json);
-
-            console.log("SUCCESS : ", data);
-            $("#btn-search").prop("disabled", false);
-
-        },
-        error: function (e) {
-
-            var json = "<h4>Ajax Response</h4><pre>"
-                + e.responseText + "</pre>";
-            $('#feedback').html(json);
-
-            console.log("ERROR : ", e);
-            $("#btn-search").prop("disabled", false);
-
-        }
-    });
-
+//This is an issue. I think Maybe doing this in Java on the server might be better
+function convertToCurrentTimezone(currentDate) {
+	var utc = currentDate.getTime() + (currentDate.getTimezoneOffset() * 60000);
+	return new Date(utc + (3600000*-4));
 }
+
+
+//Found on stackoverflow
+var dates = {
+	    convert:function(d) {
+	        // Converts the date in d to a date-object. The input can be:
+	        //   a date object: returned without modification
+	        //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+	        //   a number     : Interpreted as number of milliseconds
+	        //                  since 1 Jan 1970 (a timestamp) 
+	        //   a string     : Any format supported by the javascript engine, like
+	        //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+	        //  an object     : Interpreted as an object with year, month and date
+	        //                  attributes.  **NOTE** month is 0-11.
+	        return (
+	            d.constructor === Date ? d :
+	            d.constructor === Array ? new Date(d[0],d[1],d[2]) :
+	            d.constructor === Number ? new Date(d) :
+	            d.constructor === String ? new Date(d) :
+	            typeof d === "object" ? new Date(d.year,d.month,d.date) :
+	            NaN
+	        );
+	    },
+	    compare:function(a,b) {
+	        // Compare two dates (could be of any type supported by the convert
+	        // function above) and returns:
+	        //  -1 : if a < b
+	        //   0 : if a = b
+	        //   1 : if a > b
+	        // NaN : if a or b is an illegal date
+	        // NOTE: The code inside isFinite does an assignment (=).
+	        return (
+	            isFinite(a=this.convert(a).valueOf()) &&
+	            isFinite(b=this.convert(b).valueOf()) ?
+	            (a>b)-(a<b) :
+	            NaN
+	        );
+	    },
+	    inRange:function(d,start,end) {
+	        // Checks if date in d is between dates in start and end.
+	        // Returns a boolean or NaN:
+	        //    true  : if d is between start and end (inclusive)
+	        //    false : if d is before start or after end
+	        //    NaN   : if one or more of the dates is illegal.
+	        // NOTE: The code inside isFinite does an assignment (=).
+	       return (
+	            isFinite(d=this.convert(d).valueOf()) &&
+	            isFinite(start=this.convert(start).valueOf()) &&
+	            isFinite(end=this.convert(end).valueOf()) ?
+	            start <= d && d <= end :
+	            NaN
+	        );
+	    }
+	}

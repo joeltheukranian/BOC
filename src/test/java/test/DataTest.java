@@ -23,9 +23,10 @@ public class DataTest extends TestCase {
 		List <WeatherEntry> weather = new ArrayList<WeatherEntry>(); 
 	   	//read CSV
     	Reader reader;
+    	CSVParser csvParser = null;
 		try {
 			reader = Files.newBufferedReader(Paths.get("eng-climate-summary.csv"));
-	    	CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+	    	csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
 			for (CSVRecord csvRecord : csvParser) {
 				WeatherEntry weatherEntry = new WeatherEntry(
 					csvRecord.get("Station_Name"),
@@ -39,6 +40,13 @@ public class DataTest extends TestCase {
 			failed = false;
 		} catch (IOException e) {
 			failed = true;
+		} finally {
+			try {
+				csvParser.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		assertFalse("CSV did not load properly", failed);
 	}
@@ -49,9 +57,10 @@ public class DataTest extends TestCase {
 		List <WeatherEntry> weather = new ArrayList<WeatherEntry>(); 
 	   	//read CSV
     	Reader reader;
+    	CSVParser csvParser = null;
 		try {
 			reader = Files.newBufferedReader(Paths.get("eng-climate-summary_badStationName.csv"));
-	    	CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+	    	csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
 			for (CSVRecord csvRecord : csvParser) {
 				WeatherEntry weatherEntry = new WeatherEntry(
 					csvRecord.get("Station_Name"),
@@ -65,6 +74,13 @@ public class DataTest extends TestCase {
 			failed = false;
 		} catch (Exception e) {
 			failed = true;
+		} finally {
+			try {
+				csvParser.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		assertTrue("CSV did not load properly", failed);
 	}	

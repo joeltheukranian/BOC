@@ -57,10 +57,11 @@ public class WeatherDataService {
     private void readCSV() {
     	weather = new ArrayList<WeatherEntry>();
     	//read CSV
-    	Reader reader;
+    	Reader reader = null;
+    	CSVParser csvParser = null;
 		try {
 			reader = Files.newBufferedReader(Paths.get("eng-climate-summary.csv"));
-	    	CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+	    	csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
 			for (CSVRecord csvRecord : csvParser) {
 				WeatherEntry weatherEntry = new WeatherEntry(
 					csvRecord.get("Station_Name"),
@@ -74,6 +75,13 @@ public class WeatherDataService {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				csvParser.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
     }

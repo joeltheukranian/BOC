@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 //DataTest: JUnit tests to verify CSV reads ok. Verify if a column is wrong it will fail (-ve test)
 public class DataTest extends TestCase {
 	
+	//Validate the file reads ok
 	public void testCSVFileIsReadable() {
 		boolean failed = true;
 		List <WeatherEntry> weather = new ArrayList<WeatherEntry>(); 
@@ -38,7 +39,8 @@ public class DataTest extends TestCase {
 				weather.add(weatherEntry);
 			}
 			failed = false;
-		} catch (IOException e) {
+		//catching Exception, because the column name could change, which is another exception other than IOException
+		} catch (Exception e) {
 			failed = true;
 		} finally {
 			try {

@@ -20,4 +20,9 @@ public class IndexController {
     public String details() {
         return "details";
     }
+    
+    @GetMapping("/*")
+    public String resourceNotFound() {
+        return "resourceNotFound";
+    }
 }

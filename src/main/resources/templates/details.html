@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" type="text/css"
           href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <!-- I borrowed this from w3schools to get purple border -->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
 </head>
 <body>
 
@@ -16,12 +18,26 @@
         <h1>BOC Weather data details</h1>
 
         <div id="details">
-        		<label>Station</label><input id="station"></input><br/>
-        		<label>Province</label><input id="province"></input><br/>
-        		<label>Date</label><input id="date"></input><br/>
-        		<label>Mean Temp</label><input id="meanTemp"></input><br/>
-        		<label>Lowest Monthly Min Temp</label><input id="lowestMonthly_Min_Temp"></input><br/>
-        		<label>Highest Monthly Max Temp</label><input id="highest_Monthly_Max_Temp"></input><br/>
+        	<table>
+        		<tr>
+        			<td><label>Station&nbsp;&nbsp;</label></td><td><input id="station" class="w3-border-purple"></input></td><br/>
+				</tr>
+        		<tr>
+	        		<td><label>Province</label></td><td><input id="province" class="w3-border-purple"></input></td><br/>
+				</tr>
+        		<tr>
+	        		<td><label>Date&nbsp;&nbsp;</label></td><td><input id="date" class="w3-border-purple"></input></td><br/>
+				</tr>
+        		<tr>
+	        		<td><label>Mean Temp&nbsp;&nbsp;</label></td><td><input id="meanTemp" class="w3-border-purple"></input></td><br/>
+				</tr>
+        		<tr>
+	        		<td><label>Lowest Monthly Min Temp</label></td><td><input id="lowestMonthly_Min_Temp" class="w3-border-purple"></input></td><br/>
+				</tr>
+        		<tr>
+	        		<td><label>Highest Monthly Max Temp</label></td><td><input id="highest_Monthly_Max_Temp" class="w3-border-purple"></input></td><br/>
+				</tr>
+        	</table>
         </div>
     </div>
 </div>

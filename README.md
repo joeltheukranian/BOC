@@ -3,7 +3,7 @@ Build: mvn clean install
 
 Run Server: 
 
-a. Eclipse: Run SpringBootWebApplication.java
+a. Eclipse: Run com.boc.SpringBootWebApplication.java
  
 OR 
 
@@ -14,5 +14,6 @@ JDK: JDK1.8
 Browser: http://localhost:8888
 
 Files:
-- /BOC Test/eng-climate-summary_badStationName.csv: CSV file with bad column name for station. Must fail Junit test
+- eng-climate-summary_badStationName.csv: CSV file with bad column name for station. Must fail Junit test
+- eng-climate-summary.csv: CSV file provided 
 
